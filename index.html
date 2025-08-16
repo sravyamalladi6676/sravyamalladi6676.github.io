@@ -140,7 +140,7 @@
 
   <!-- 4) CONTRIBUTIONS (SCREENSHOTS, CODE POINTERS) -->
   <section id="evidence" style="margin-top:16px">
-    <h2>Contributions (selected)</h2>
+    <h2>Contributions</h2>
     <div class="grid-2">
       <div class="panel">
         <h3 style="margin-top:0">Screenshots</h3>
@@ -162,6 +162,8 @@
         <p style="margin:10px 0 0"><a class="btn" href="https://github.com/sravyamalladi6676/Sravya-AI-Agent-Stock-Prediction" target="_blank" rel="noopener">Open Repository ↗</a></p>
         <p class="muted" style="margin:10px 0 0">How to run (example):</p>
         <pre class="panel mono" style="white-space:pre-wrap;margin-top:6px">
+python src/UI/snif.py \
+          \
 python src/Backtesting/snif_backtest.py \
   --ticker AAPL --start 2023-01-01 --end 2024-12-31 \
   --encoder checkpoints/autoencoder/best_encoder.pth \
@@ -185,13 +187,11 @@ python src/Backtesting/snif_backtest.py \
           <li><a href="Malladi Task Hours Achieved Sprint 3.docx">Sprint 3 Hours (docx)</a></li>
           <li><a href="Malladi Task Hours Achieved Sprint 4.docx">Sprint 4 Hours (docx)</a></li>
         </ul>
-        <p class="muted" style="margin:8px 0 0">These are for reference; the main page stays concise.</p>
       </div>
       <div class="panel">
         <h3 style="margin-top:0">Commits / Paper</h3>
         <ul style="margin:8px 0 0 18px">
           <li><a href="https://github.com/sravyamalladi6676/Sravya-AI-Agent-Stock-Prediction/commits/malladi-sprint4/?author=sravyamalladi6676" target="_blank" rel="noopener">All commits (malladi-sprint4, author filter) ↗</a></li>
-          <li>Paper (if applicable): <span class="muted">add citation/link here</span></li>
         </ul>
       </div>
     </div>
@@ -199,7 +199,7 @@ python src/Backtesting/snif_backtest.py \
     <details style="margin-top:12px">
       <summary>Full User Story (brief)</summary>
       <div style="margin-top:8px" class="muted">
-        Use autoencoder embeddings → infer dynamic topology → GCN+LSTM predicts next-day probs → emit JSON → DecisionAgent maps to BUY/SELL/HOLD. Includes data integrity checks, latency ≤ 5 s, and backtesting.
+       <p style="margin:10px 0 0"><a class="btn" href="https://github.com/Rivier-Computer-Science/AI-Agent-Stock-Prediction/issues/599" target="_blank" rel="noopener">Link to Full User Story</a></p>
       </div>
     </details>
   </section>
