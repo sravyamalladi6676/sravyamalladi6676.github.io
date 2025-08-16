@@ -2,321 +2,215 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
+  <title>SNIF — Hiring Manager View (Sravya Malladi)</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>SNIF — Stock Network Inference Framework</title>
-  <meta name="description" content="SNIF: Autoencoder + Dynamic Topology + GCN+LSTM with Crew AI decisioning and backtesting." />
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+  <meta name="color-scheme" content="dark light" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
   <style>
     :root{
-      --bg:#0b0f1a;
-      --card:#111827;
-      --muted:#94a3b8;
-      --text:#e5e7eb;
-      --accent:#22d3ee;    /* cyan */
-      --accent2:#a78bfa;   /* violet */
-      --chip:#1f2937;
-      --ring: rgba(34,211,238,.35);
-      --ok:#10b981; --warn:#f59e0b; --bad:#ef4444;
+      --bg:#0b0f1a; --panel:#0f172a; --ink:#e5e7eb; --muted:#9aa5b1;
+      --line:rgba(255,255,255,.12); --chip:#1f2937; --accent:#22d3ee; --accent2:#a78bfa;
     }
     *{box-sizing:border-box}
-    html,body{height:100%}
-    body{
-      margin:0; font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,"Helvetica Neue",Arial;
-      background: radial-gradient(1200px 800px at 80% -10%, rgba(167,139,250,.25), transparent 50%),
-                  radial-gradient(1000px 700px at -10% 0%, rgba(34,211,238,.2), transparent 50%),
-                  var(--bg);
-      color:var(--text);
-      line-height:1.6;
-    }
-    a{color:var(--accent);text-decoration:none}
-    a:hover{text-decoration:underline}
-    .wrap{max-width:1100px;margin:0 auto;padding:0 20px}
-    header{
-      position:sticky;top:0;z-index:50;
-      backdrop-filter:saturate(180%) blur(10px);
-      background:linear-gradient(180deg, rgba(17,24,39,.85), rgba(17,24,39,.65));
-      border-bottom:1px solid rgba(255,255,255,.06)
-    }
-    .nav{display:flex;align-items:center;justify-content:space-between;padding:14px 0}
-    .brand{font-weight:800;letter-spacing:.4px}
+    body{margin:0;font-family:Inter,system-ui,Segoe UI,Roboto,Arial;line-height:1.6;background:var(--bg);color:var(--ink)}
+    a{color:var(--accent);text-decoration:none} a:hover{text-decoration:underline}
+    header{position:sticky;top:0;z-index:40;background:rgba(15,23,42,.8);backdrop-filter:saturate(150%) blur(10px);border-bottom:1px solid var(--line)}
+    .wrap{max-width:1080px;margin:0 auto;padding:0 18px}
+    .nav{display:flex;gap:16px;align-items:center;justify-content:space-between;padding:14px 0}
+    .brand{font-weight:800;letter-spacing:.2px}
     .brand span{background:linear-gradient(90deg,var(--accent),var(--accent2));-webkit-background-clip:text;background-clip:text;color:transparent}
-    .nav a{margin-left:16px;color:#cbd5e1}
-    .btn{
-      display:inline-flex;align-items:center;gap:10px;
-      padding:10px 16px;border-radius:999px;border:1px solid rgba(255,255,255,.12);
-      background:linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
-    }
-    .hero{padding:64px 0 24px}
-    .hero-grid{display:grid;grid-template-columns:1.2fr .8fr;gap:24px}
-    .pill{display:inline-flex;gap:8px;align-items:center;padding:6px 10px;border-radius:999px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);font-size:12px;color:#cbd5e1}
-    h1{font-size:44px;line-height:1.15;margin:16px 0 10px}
-    .sub{color:#cbd5e1;max-width:720px;margin-bottom:20px}
-    .glass{
-      background:linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
-      border:1px solid rgba(255,255,255,.12); border-radius:16px; box-shadow:0 10px 40px rgba(0,0,0,.35)
-    }
-    .statgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:10px}
-    .stat{padding:14px;border-radius:12px;background:rgba(17,24,39,.7);border:1px solid rgba(255,255,255,.06)}
-    .stat .k{font-size:18px;font-weight:700}
-    .k.ok{color:var(--ok)} .k.warn{color:var(--warn)} .k.bad{color:var(--bad)}
-    section{padding:36px 0}
-    h2{font-size:28px;margin:0 0 14px}
-    .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
-    .card{padding:16px;border-radius:16px;background:var(--card);border:1px solid rgba(255,255,255,.08)}
-    .chip{display:inline-flex;padding:6px 10px;border-radius:999px;background:var(--chip);color:#cbd5e1;font-size:12px;margin:4px 6px 0 0;border:1px solid rgba(255,255,255,.06)}
-    code, pre{font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace}
-    pre{background:#0b1220;border:1px solid rgba(255,255,255,.08);padding:14px;border-radius:12px;overflow:auto}
-    .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
-    details{border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:12px;background:rgba(17,24,39,.55)}
+    nav a{color:#cbd5e1;margin-left:12px}
+    main{padding:28px 0}
+    h1{font-size:34px;margin:4px 0 10px}
+    h2{font-size:22px;margin:24px 0 10px}
+    p{margin:10px 0}
+    .panel{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:14px}
+    .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+    .grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+    .table{width:100%;border-collapse:collapse;font-size:14px}
+    .table th,.table td{border-bottom:1px solid var(--line);padding:10px;text-align:left;vertical-align:top}
+    .mono{font-family:ui-monospace, SFMono-Regular, Menlo, Consolas, monospace}
+    .chips{display:flex;flex-wrap:wrap;gap:6px}
+    .chip{background:var(--chip);border:1px solid var(--line);padding:4px 10px;border-radius:999px;font-size:12px;color:#cbd5e1}
+    .good{color:#10b981}.warn{color:#f59e0b}.bad{color:#ef4444}
+    img{max-width:100%;border-radius:12px;border:1px solid var(--line)}
+    .muted{color:var(--muted)}
+    .btn{display:inline-block;padding:8px 12px;border:1px solid var(--line);border-radius:999px}
+    details{border:1px solid var(--line);border-radius:12px;padding:10px;background:rgba(255,255,255,.02)}
     summary{cursor:pointer;font-weight:600}
-    table{width:100%;border-collapse:collapse;margin-top:10px}
-    th,td{padding:10px;border-bottom:1px dashed rgba(255,255,255,.08);text-align:left;font-size:14px}
-    .gallery{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-    .gallery img{width:100%;border-radius:12px;border:1px solid rgba(255,255,255,.08)}
-    footer{padding:30px 0;color:#9aa5b1}
-    .ring{box-shadow:0 0 0 6px var(--ring)}
-    @media(max-width:960px){
-      .hero-grid, .cards, .grid-2, .gallery{grid-template-columns:1fr}
-      .statgrid{grid-template-columns:repeat(2,1fr)}
-    }
+    footer{padding:30px 0;color:#9aa5b1;border-top:1px solid var(--line);margin-top:24px}
+    @media (max-width:900px){.grid-2,.grid-3{grid-template-columns:1fr}}
   </style>
 </head>
 <body>
-  <header>
-    <div class="wrap nav">
-      <div class="brand">Sravya • <span>SNIF</span></div>
-      <nav>
-        <a href="#overview">Overview</a>
-        <a href="#criteria">Acceptance</a>
-        <a href="#agents">Agents</a>
-        <a href="#sprints">Sprints</a>
-        <a href="#backtest">Backtesting</a>
-        <a class="btn" href="https://github.com/sravyamalladi6676/Sravya-AI-Agent-Stock-Prediction" target="_blank" rel="noopener">Repo ↗</a>
-      </nav>
+<header>
+  <div class="wrap nav">
+    <div class="brand">Sravya Malladi • <span>SNIF</span></div>
+    <nav>
+      <a href="#overview">Overview</a>
+      <a href="#sprints">Sprint Summary</a>
+      <a href="#tasks">User Stories / Tasks</a>
+      <a href="#evidence">Contributions</a>
+      <a href="#appendix">Appendix</a>
+      <a class="btn" href="https://github.com/sravyamalladi6676/Sravya-AI-Agent-Stock-Prediction" target="_blank" rel="noopener">Repo ↗</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <!-- 1) FACTUAL ONE-PARAGRAPH SUMMARY -->
+  <section id="overview" class="panel">
+    <h1>SNIF: Stock Network Inference Framework</h1>
+    <p>
+      <strong>Project.</strong> Learn daily stock-return embeddings with an autoencoder, infer a dynamic graph from embedding
+      similarities, and predict next-day movement using a GCN+LSTM student model. Emit per-stock JSON
+      (<span class="mono">{"stock":"AAPL","snif_prob":0.68}</span>) and map to BUY/SELL/HOLD with a DecisionAgent. Includes a Backtrader harness.
+    </p>
+    <p>
+      <strong>My contribution.</strong> I implemented return ingestion and cleaning, the PyTorch autoencoder + trainer,
+      topology inference (cosine + threshold), the GCN+LSTM model and TorchScript export, the
+      inference pipeline that recomputes adjacency and outputs JSON, the Crew AI DecisionAgent integration (with safe fallback),
+      and the Backtrader strategy + analyzers (Sharpe, returns, drawdown). I wrote unit/integration hooks and CLI entries for backtests.
+    </p>
+    <div class="grid-3" style="margin-top:6px">
+      <div class="panel"><div class="muted">Tech</div><div class="chips" style="margin-top:6px">
+        <span class="chip">PyTorch</span><span class="chip">TorchScript</span><span class="chip">GCN</span><span class="chip">LSTM</span>
+        <span class="chip">Backtrader</span><span class="chip">yfinance</span></div></div>
+      <div class="panel"><div class="muted">Key files</div>
+        <ul style="margin:8px 0 0 16px">
+          <li><span class="mono">src/UI/snif.py</span> (pipeline, models, agents)</li>
+          <li><span class="mono">src/Backtesting/snif_backtest.py</span> (signals + strategy + metrics)</li>
+        </ul>
+      </div>
+      <div class="panel"><div class="muted">Public code</div>
+        <p style="margin:6px 0"><a href="https://github.com/sravyamalladi6676/Sravya-AI-Agent-Stock-Prediction" target="_blank" rel="noopener">Repository ↗</a></p>
+      </div>
     </div>
-  </header>
+  </section>
 
-  <main class="wrap">
-    <!-- HERO -->
-    <section class="hero">
-      <div class="hero-grid">
-        <div>
-          <span class="pill">User Story #599 · Stock Network Inference Framework</span>
-          <h1>Autoencoder → Dynamic Graph → <span style="background:linear-gradient(90deg,var(--accent),var(--accent2));-webkit-background-clip:text;background-clip:text;color:transparent">GCN+LSTM</span> → Crew AI</h1>
-          <p class="sub">SNIF learns latent embeddings of daily stock returns, infers a dynamic topology from those embeddings, predicts next-day movement probabilities with a GCN+LSTM student model, then emits JSON for a Crew AI DecisionAgent to produce BUY/SELL/HOLD.</p>
-          <div style="display:flex;gap:10px;flex-wrap:wrap">
-            <a class="btn ring" href="#sprints">See Sprint Work</a>
-            <a class="btn" href="https://github.com/sravyamalladi6676/Sravya-AI-Agent-Stock-Prediction/commits/malladi-sprint4/?author=sravyamalladi6676" target="_blank" rel="noopener">View Commits ↗</a>
-          </div>
-          <div class="statgrid">
-            <div class="stat"><div class="k ok">≤ 5 s</div><div class="muted">End-to-end inference</div></div>
-            <div class="stat"><div class="k">JSON</div><div class="muted">{"stock":"AAPL","snif_prob":0.68}</div></div>
-            <div class="stat"><div class="k warn">Robust</div><div class="muted">Handles NaNs/low vol days</div></div>
-            <div class="stat"><div class="k">Backtested</div><div class="muted">Signal-driven trades</div></div>
-          </div>
-        </div>
-        <div class="glass" style="padding:18px;border-radius:16px">
-          <pre><code>// Inference output (per stock)
-[
-  { "stock": "AAPL", "snif_prob": 0.68 },
-  { "stock": "MSFT", "snif_prob": 0.41 }
-]
+  <!-- 2) DEEPER OVERVIEW + SPRINT OBJECTIVES TABLE -->
+  <section id="sprints" style="margin-top:16px">
+    <h2>Deeper Overview</h2>
+    <div class="grid-2">
+      <div class="panel">
+        <h3 style="margin-top:0">Architecture (high level)</h3>
+        <ul style="margin:8px 0 0 18px">
+          <li>Daily returns matrix (days × stocks) → <strong>Autoencoder</strong> → latent <span class="mono">z_t</span></li>
+          <li>Cosine similarity on <span class="mono">z_t</span> → threshold → <strong>Adjacency</strong></li>
+          <li><strong>GCN</strong>(adj, features) → <strong>LSTM</strong> over time → next-day class logits</li>
+          <li><strong>Inference</strong>: TorchScript model + today’s adjacency → <span class="mono">{"stock","snif_prob"}</span></li>
+          <li><strong>DecisionAgent</strong>: map prob to BUY/SELL/HOLD (LLM optional; HOLD fallback)</li>
+          <li><strong>Backtesting</strong>: signal → trade; analyzers: Returns, TimeReturn, Sharpe, DrawDown</li>
+        </ul>
+      </div>
+      <div class="panel">
+        <h3 style="margin-top:0">Summary of Sprint Objectives</h3>
+        <table class="table">
+          <thead><tr><th>Sprint</th><th>Objective</th><th>Outcome</th></tr></thead>
+          <tbody>
+            <tr><td>Sprint 1</td><td>Minimal viable data pipeline</td><td>Return ingestion, cleaning, alignment</td></tr>
+            <tr><td>Sprint 2</td><td>Autoencoder + topology spike</td><td>Latent <span class="mono">z_t</span>, cosine sim, adjacency</td></tr>
+            <tr><td>Sprint 3</td><td>Working MVP model + inference</td><td>GCN+LSTM, TorchScript, JSON output</td></tr>
+            <tr><td>Sprint 4</td><td>Decision + integration + tests</td><td>Crew AI hook, end-to-end backtest</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
 
-// Crew AI decision (per item)
-{ "recommendation": "BUY" }</code></pre>
-          <pre style="margin-top:10px"><code># Backtest CLI example
+  <!-- 3) SUMMARIZED USER STORY / TASKS (OWNED, CO-OWNED, NOT OWNED) -->
+  <section id="tasks" style="margin-top:16px">
+    <h2>User Story / Tasks (summary)</h2>
+    <div class="panel">
+      <p class="muted" style="margin-top:0">Tag legend: <span class="chip">Owned</span> <span class="chip">Co-owned</span> <span class="chip">Not owned</span></p>
+      <ul style="margin:8px 0 0 18px">
+        <li><strong>SNIF.1 Return Data Ingestion (#600)</strong> — <span class="chip">Owned</span></li>
+        <li><strong>SNIF.2 Autoencoder Training (#621)</strong> — <span class="chip">Owned</span></li>
+        <li><strong>SNIF.3 Topology Inference (#632)</strong> — <span class="chip">Owned</span></li>
+        <li><strong>SNIF.4 GCN+LSTM Model Development (#633)</strong> — <span class="chip">Owned</span></li>
+        <li><strong>SNIF.5 Inference API (#634)</strong> — <span class="chip">Owned</span></li>
+        <li><strong>SNIF.6 Crew AI DecisionAgent (#635)</strong> — <span class="chip">Owned</span></li>
+        <li><strong>SNIF.7 Integration & Validation (#636)</strong> — <span class="chip">Owned</span></li>
+        <li><strong>SNIF.8 Backtesting & Evaluation (#637)</strong> — <span class="chip">Owned</span></li>
+      </ul>
+      <p class="muted" style="margin:8px 0 0">Notes: This section is a quick read. Full user stories and sprint artifacts are linked in the Appendix.</p>
+    </div>
+  </section>
+
+  <!-- 4) CONTRIBUTIONS (SCREENSHOTS, CODE POINTERS) -->
+  <section id="evidence" style="margin-top:16px">
+    <h2>Contributions (selected)</h2>
+    <div class="grid-2">
+      <div class="panel">
+        <h3 style="margin-top:0">Screenshots</h3>
+        <figure style="margin:0 0 10px">
+          <img src="1.jpg" alt="Backtest summary and metrics (screenshot 1)">
+          <figcaption class="muted">Backtest metrics: Sharpe, total/avg return, drawdown.</figcaption>
+        </figure>
+        <figure style="margin:0">
+          <img src="2.jpg" alt="Equity curve / analyzer outputs (screenshot 2)">
+          <figcaption class="muted">Equity curve and analyzer outputs from Backtrader.</figcaption>
+        </figure>
+      </div>
+      <div class="panel">
+        <h3 style="margin-top:0">Code pointers</h3>
+        <ul style="margin:8px 0 0 18px">
+          <li><span class="mono">src/UI/snif.py</span> — ReturnFetcher, AutoencoderTrainer, TopologyBuilder, GCN_LSTM, InferenceEngine, CrewAIDecisionAgent</li>
+          <li><span class="mono">src/Backtesting/snif_backtest.py</span> — signal builder, strategy, analyzers, CLI</li>
+        </ul>
+        <p style="margin:10px 0 0"><a class="btn" href="https://github.com/sravyamalladi6676/Sravya-AI-Agent-Stock-Prediction" target="_blank" rel="noopener">Open Repository ↗</a></p>
+        <p class="muted" style="margin:10px 0 0">How to run (example):</p>
+        <pre class="panel mono" style="white-space:pre-wrap;margin-top:6px">
 python src/Backtesting/snif_backtest.py \
   --ticker AAPL --start 2023-01-01 --end 2024-12-31 \
   --encoder checkpoints/autoencoder/best_encoder.pth \
   --scripted models/snif_student.pt \
   --model-labels SELL,HOLD,BUY --cash 10000 --commission 0.001 \
-  --window 30 --buy-threshold 0.34 --sell-threshold 0.34 --rf 0.01</code></pre>
-        </div>
+  --window 30 --buy-threshold 0.34 --sell-threshold 0.34 --rf 0.01
+        </pre>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <!-- OVERVIEW -->
-    <section id="overview">
-      <h2>Project Overview</h2>
-      <div class="grid-2">
-        <div class="card">
-          <h3>Pipeline</h3>
-          <ul>
-            <li><strong>SNIF.1</strong> Return ingestion → (days × stocks) return matrix</li>
-            <li><strong>SNIF.2</strong> Autoencoder training → latent <em>z</em></li>
-            <li><strong>SNIF.3</strong> Topology from cosine similarities → adjacency</li>
-            <li><strong>SNIF.4</strong> GCN + LSTM student → next-day labels</li>
-            <li><strong>SNIF.5</strong> Inference API → <code>{"stock","snif_prob"}</code></li>
-            <li><strong>SNIF.6</strong> Crew AI DecisionAgent → BUY/SELL/HOLD</li>
-            <li><strong>SNIF.7–8</strong> Integration, latency, and backtesting</li>
-          </ul>
-        </div>
-        <div class="card">
-          <h3>Tech stack</h3>
-          <div>
-            <span class="chip">PyTorch</span>
-            <span class="chip">GCN</span>
-            <span class="chip">LSTM</span>
-            <span class="chip">Cosine Similarity</span>
-            <span class="chip">Backtrader</span>
-            <span class="chip">LangChain / OpenAI</span>
-            <span class="chip">yfinance</span>
-          </div>
-        </div>
+  <!-- 5) APPENDIX (ARTIFACTS, COMMITS, PAPERS) -->
+  <section id="appendix" style="margin-top:16px">
+    <h2>Appendix</h2>
+    <div class="grid-2">
+      <div class="panel">
+        <h3 style="margin-top:0">Sprint artifacts</h3>
+        <ul style="margin:8px 0 0 18px">
+          <li><a href="Malladi Task Hours Achieved Sprint 1.docx">Sprint 1 Hours (docx)</a></li>
+          <li><a href="Malladi Task Hours Achieved Sprint 2.docx">Sprint 2 Hours (docx)</a></li>
+          <li><a href="Malladi Task Hours Achieved Sprint 3.docx">Sprint 3 Hours (docx)</a></li>
+          <li><a href="Malladi Task Hours Achieved Sprint 4.docx">Sprint 4 Hours (docx)</a></li>
+        </ul>
+        <p class="muted" style="margin:8px 0 0">These are for reference; the main page stays concise.</p>
       </div>
-    </section>
-
-    <!-- ACCEPTANCE CRITERIA -->
-    <section id="criteria">
-      <h2>Acceptance Criteria & Conditions of Satisfaction</h2>
-      <div class="cards">
-        <div class="card">
-          <h3>Data Integrity</h3>
-          <p>No NaNs in return matrix; missing values handled via clean-and-align (ffill/bfill).</p>
-        </div>
-        <div class="card">
-          <h3>Model Correctness</h3>
-          <p>Autoencoder & GCN+LSTM use correct tensor shapes and produce valid outputs.</p>
-        </div>
-        <div class="card">
-          <h3>Performance</h3>
-          <p>Topology build + student inference → JSON in ≤ 5 s.</p>
-        </div>
-        <div class="card">
-          <h3>Robustness</h3>
-          <p>Tolerates low volatility and missing tickers without crashing.</p>
-        </div>
-        <div class="card">
-          <h3>Integration</h3>
-          <p>DecisionAgent maps thresholds consistently to valid BUY/SELL/HOLD.</p>
-        </div>
-        <div class="card">
-          <h3>Definition of Done</h3>
-          <p>Code + tests + benchmarks + docs complete; backtesting report generated.</p>
-        </div>
+      <div class="panel">
+        <h3 style="margin-top:0">Commits / Paper</h3>
+        <ul style="margin:8px 0 0 18px">
+          <li><a href="https://github.com/sravyamalladi6676/Sravya-AI-Agent-Stock-Prediction/commits/malladi-sprint4/?author=sravyamalladi6676" target="_blank" rel="noopener">All commits (malladi-sprint4, author filter) ↗</a></li>
+          <li>Paper (if applicable): <span class="muted">add citation/link here</span></li>
+        </ul>
       </div>
-    </section>
+    </div>
 
-    <!-- AGENTS -->
-    <section id="agents">
-      <h2>Agents</h2>
-      <div class="cards">
-        <div class="card">
-          <h3>ReturnFetchAgent</h3>
-          <p>Fetches OHLCV, computes daily returns, aligns tickers across dates.</p>
-        </div>
-        <div class="card">
-          <h3>AutoencoderAgent</h3>
-          <p>Trains encoder/decoder on reconstruction loss; exports latent <code>z_t</code>.</p>
-        </div>
-        <div class="card">
-          <h3>TopologyAgent</h3>
-          <p>Cosine similarities on <code>z_t</code> → threshold/sparsify into adjacency.</p>
-        </div>
-        <div class="card">
-          <h3>GCNLSTMTrainAgent</h3>
-          <p>Trains student model on adjacency + embeddings for next-day labels.</p>
-        </div>
-        <div class="card">
-          <h3>InferenceAgent</h3>
-          <p>Loads student, recomputes today’s adjacency, emits per-stock JSON.</p>
-        </div>
-        <div class="card">
-          <h3>DecisionAgent</h3>
-          <p>Applies thresholds: &gt;0.6 BUY, &lt;0.4 SELL, else HOLD; returns JSON.</p>
-        </div>
+    <details style="margin-top:12px">
+      <summary>Full User Story (brief)</summary>
+      <div style="margin-top:8px" class="muted">
+        Use autoencoder embeddings → infer dynamic topology → GCN+LSTM predicts next-day probs → emit JSON → DecisionAgent maps to BUY/SELL/HOLD. Includes data integrity checks, latency ≤ 5 s, and backtesting.
       </div>
-    </section>
+    </details>
+  </section>
 
-    <!-- SPRINTS -->
-    <section id="sprints">
-      <h2>Sprint Highlights</h2>
+</main>
 
-      <details open class="glass">
-        <summary>🚀 Sprint 1 — Minimal Viable Product</summary>
-        <table>
-          <thead><tr><th>Task</th><th>Estimate</th><th>Status</th><th>Actual</th></tr></thead>
-          <tbody>
-            <tr><td>SNIF.1 Return Data Ingestion (#600)</td><td>8 h</td><td>Complete</td><td>18 h</td></tr>
-          </tbody>
-        </table>
-      </details>
+<footer>
+  <div class="wrap">
+    <div>© <script>document.write(new Date().getFullYear())</script> Sravya Malladi</div>
+  </div>
+</footer>
 
-      <div class="grid-2" style="margin-top:12px">
-        <details open class="glass">
-          <summary>🧠 Sprint 2 — Autoencoder & Topology</summary>
-          <table>
-            <thead><tr><th>Task</th><th>Estimate</th><th>Status</th><th>Actual</th></tr></thead>
-            <tbody>
-              <tr><td>SNIF.2 Autoencoder Training (#621)</td><td>8 h</td><td>Complete</td><td>17 h</td></tr>
-              <tr><td>SNIF.3 Topology Inference (#632)</td><td>5 h</td><td>Complete</td><td>14 h</td></tr>
-            </tbody>
-          </table>
-        </details>
-
-        <details open class="glass">
-          <summary>🧩 Sprint 3 — GCN+LSTM & Inference API</summary>
-          <table>
-            <thead><tr><th>Task</th><th>Estimate</th><th>Status</th><th>Actual</th></tr></thead>
-            <tbody>
-              <tr><td>SNIF.4 GCN+LSTM Dev (#633)</td><td>10 h</td><td>Complete</td><td>18 h</td></tr>
-              <tr><td>SNIF.5 Inference API (#634)</td><td>5 h</td><td>Complete</td><td>14 h</td></tr>
-            </tbody>
-          </table>
-        </details>
-      </div>
-
-      <details open class="glass" style="margin-top:12px">
-        <summary>🧪 Sprint 4 — Crew AI, Integration, Backtesting</summary>
-        <table>
-          <thead><tr><th>Task</th><th>Estimate</th><th>Status</th><th>Actual</th></tr></thead>
-          <tbody>
-            <tr><td>SNIF.6 Crew AI DecisionAgent (#635)</td><td>4 h</td><td>Complete</td><td>8 h</td></tr>
-            <tr><td>SNIF.7 Integration & Validation (#636)</td><td>9 h</td><td>Complete</td><td>10 h</td></tr>
-            <tr><td>SNIF.8 Backtesting & Evaluation (#637)</td><td>9 h</td><td>Complete</td><td>12 h</td></tr>
-          </tbody>
-        </table>
-      </details>
-
-      <p style="margin-top:14px">Full commit history: <a href="https://github.com/sravyamalladi6676/Sravya-AI-Agent-Stock-Prediction/commits/malladi-sprint4/?author=sravyamalladi6676" target="_blank" rel="noopener">malladi-sprint4 branch ↗</a></p>
-    </section>
-
-    <!-- BACKTEST -->
-    <section id="backtest">
-      <h2>Backtesting Snapshots</h2>
-      <p class="sub">Signal-driven strategy executed in Backtrader using SNIF model outputs + optional Crew AI override.</p>
-      <div class="gallery">
-        <figure class="card">
-          <img src="1.jpg" alt="Backtesting summary screenshot 1" />
-          <figcaption style="color:#cbd5e1">Figure 1 — Backtest summary & key metrics</figcaption>
-        </figure>
-        <figure class="card">
-          <img src="2.jpg" alt="Backtesting summary screenshot 2" />
-          <figcaption style="color:#cbd5e1">Figure 2 — Equity curve / analyzer outputs</figcaption>
-        </figure>
-      </div>
-    </section>
-
-    <!-- CONTACT/FOOTER -->
-    <section>
-      <div class="glass" style="padding:18px;border-radius:16px">
-        <h2>How to Run Locally</h2>
-        <ol>
-          <li>Install deps: <code>pip install -r requirements.txt</code></li>
-          <li>Train/prepare encoder & student model (or use provided checkpoints).</li>
-          <li>Run backtest (see command above) and review console output/plots.</li>
-        </ol>
-      </div>
-    </section>
-
-    <footer>
-      <div class="wrap">
-        <div>© <script>document.write(new Date().getFullYear())</script> Sravya · SNIF</div>
-        <div style="margin-top:8px">Built with ❤️ using PyTorch, Backtrader, and Crew AI.</div>
-      </div>
-    </footer>
-  </main>
 </body>
 </html>
