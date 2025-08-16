@@ -63,12 +63,12 @@
   <section id="overview" class="panel">
     <h1>SNIF: Stock Network Inference Framework</h1>
     <p>
-      <strong>Project.</strong> Learn daily stock-return embeddings with an autoencoder, infer a dynamic graph from embedding
+      <strong>Project:</strong> Learn daily stock-return embeddings with an autoencoder, infer a dynamic graph from embedding
       similarities, and predict next-day movement using a GCN+LSTM student model. Emit per-stock JSON
       (<span class="mono">{"stock":"AAPL","snif_prob":0.68}</span>) and map to BUY/SELL/HOLD with a DecisionAgent. Includes a Backtrader harness.
     </p>
     <p>
-      <strong>My contribution.</strong> I implemented return ingestion and cleaning, the PyTorch autoencoder + trainer,
+      <strong>My contribution:</strong> I implemented return ingestion and cleaning, the PyTorch autoencoder + trainer,
       topology inference (cosine + threshold), the GCN+LSTM model and TorchScript export, the
       inference pipeline that recomputes adjacency and outputs JSON, the Crew AI DecisionAgent integration (with safe fallback),
       and the Backtrader strategy + analyzers (Sharpe, returns, drawdown). I wrote unit/integration hooks and CLI entries for backtests.
